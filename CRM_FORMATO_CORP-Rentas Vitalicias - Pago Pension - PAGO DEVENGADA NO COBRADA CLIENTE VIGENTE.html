@@ -18,9 +18,12 @@
             .banner-container {
                 background-color: #FFFFFF; /* Color del contenedor del banner */
                 padding: 10px; /* Ajuste del espaciado interno del banner */
-                margin-top: 50px; /* Margen superior, para dejar espacio debajo de la franja */
                 display: flex; /* Utilizar flexbox para alinear los elementos */
                 align-items: center; /* Alinear los elementos verticalmente */
+                position: fixed; /* Fijar el contenedor del banner en la parte superior */
+                top: 50px; /* Posicionar el contenedor del banner debajo del primer banner */
+                width: 100%; /* Ancho total */
+                z-index: 999; /* Asegurar que esté por encima del contenido */
             }
 
             /* Estilo para la imagen del gato */
@@ -28,6 +31,14 @@
                 width: 150px; /* Tamaño de la imagen */
                 height: auto; /* Altura automática para mantener la proporción */
                 margin-right: 20px; /* Margen derecho para separar la imagen del texto */
+            }
+            /* Estilo para cuerpo */
+            body {
+                font-family: arial, sans-serif; /* Se especifica la fuente predeterminada */
+                font-size: 100%; /* Se especifica el tamaño de fuente base */
+                margin: 0.1em; /* Se establece el margen exterior del cuerpo */
+                background: #FFFFFF; /* Se establece el color de fondo del cuerpo (usar el plomito del bicevida) */
+                padding-top: 120px; /* Compensar el espacio ocupado por los banners fijos */
             }
 
             /* Estilo para el contenido del párrafo */
@@ -85,6 +96,11 @@
             .button-container button.benlar {
                 background-color: #DC143C;
             }
+            /* tamaño del texto */
+            p {
+                font-size: 30px; /* Cambia el tamaño de la fuente a 18px */
+            }
+             /* letra titulo con color corporativo */
             .fc0 {
                 color: rgb(31, 97, 240);
             }
@@ -126,7 +142,7 @@
         <div class="grid-container">
             <!-- Párrafos -->
             
-                <div class="fc0">
+                <div class="fc0" style="margin-top: 120px;">
                     <p><strong>PAGO DEVENGADA NO COBRADA CLIENTE VIGENTE</strong></p>
                 </div>
                 <div class="content content-blue"> <!-- Agregado de la clase content-blue -->
