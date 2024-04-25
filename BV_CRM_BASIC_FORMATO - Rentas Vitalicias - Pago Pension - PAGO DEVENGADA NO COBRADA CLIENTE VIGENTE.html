@@ -1,0 +1,169 @@
+<apex:page>
+    <!DOCTYPE html>
+    <!-- FORMATO SIMPLE -->
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>BICEBIDA CRM BASIC - PRUEBA | PAGO DEVENGADA NO COBRADA CLIENTE VIGENTE </title>
+        <!-- Referencia al archivo CSS en Visualforce -->
+        <!-- debo habilitar el apex:stylesheet con la url del saleforce donde esta el css para que funcione -->
+        <!-- <apex:stylesheet value="{!URLFOR($Resource.Visualforce)}" /> -->
+        <apex:stylesheet value="{!URLFOR($Resource.Visualforce)}" />
+        <style type="text/css">
+            /* Estilo para la franja superior */
+            .top-banner {
+                background-color: #1F61F7; /* Color de la franja superior */
+                height: 50px; /* Altura de la franja */
+                width: 100%; /* Ancho total */
+                position: fixed; /* Fijar la franja en la parte superior */
+                top: 0; /* Posicionar la franja en la parte superior */
+                z-index: 1000; /* Asegurar que esté por encima del resto del contenido */
+            }
+
+            /* Estilo para el contenedor del banner */
+            .banner-container {
+                background-color: #FFFFFF; /* Color del contenedor del banner */
+                padding: 10px; /* Ajuste del espaciado interno del banner */
+                margin-top: 50px; /* Margen superior, para dejar espacio debajo de la franja */
+                display: flex; /* Utilizar flexbox para alinear los elementos */
+                align-items: center; /* Alinear los elementos verticalmente */
+            }
+
+            /* Estilo para la imagen del gato */
+            .mascota img {
+                width: 150px; /* Tamaño de la imagen */
+                height: auto; /* Altura automática para mantener la proporción */
+                margin-right: 20px; /* Margen derecho para separar la imagen del texto */
+            }
+
+            /* Estilo para el texto del título */
+            h1 {
+                color: #1F61F7; /* Color del texto del título */
+                margin: 0; /* Eliminar el margen */
+            }
+
+            /* Estilo para el texto de actualización */
+            .updated-info {
+                margin-left: auto; /* Mover el texto hacia la derecha */
+                color: #1F61F7; /* Color del texto */
+            }
+
+            /* Estilo para el cuadro de texto */
+            .text-box {
+                background-color: #DDE3ED; /* Color de fondo del cuadro de texto */
+                padding: 20px; /* Espaciado interno */
+                margin-top: 20px; /* Margen superior */
+                border-radius: 10px; /* Esquinas redondeadas */
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            }
+
+            /* Estilo para los botones */
+            .button-container {
+                text-align: center; /* Centrar los botones */
+                margin-top: 20px; /* Margen superior */
+            }
+
+            .button-container button {
+                background-color: #1F61F7;
+                color: #FFFFFF;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                margin-bottom: 10px;
+                width: 100%;
+                max-width: 300px; /* Ajusta el ancho máximo de los botones */
+                display: block;
+            }
+
+            /* Estilo para el botón de formulario */
+            .button-container button.formulario {
+                background-color: #7CE479;
+            }
+
+            /* Estilo para el botón de Benlar */
+            .button-container button.benlar {
+                background-color: #DC143C;
+            }
+            /* color de letra corporativa */
+            .fc0 {
+                color: rgb(31, 97, 240);
+            }
+            /* tamaño del texto */
+            p {
+                font-size: 24px; /* Cambia el tamaño de la fuente a 18px */
+            }
+            /* Cambia el color del Span */
+            .highlight {
+                background-color: yellow;
+                color: black; /* Cambia el color de las letras a negro */
+            }
+            /* Estilo para los números dentro de los párrafos */
+            .number {
+                color: rgb(31, 97, 240); /* Color del texto */
+                font-weight: bold; /* Negrita */
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Franja superior -->
+        <div class="top-banner"></div>
+
+        <!-- Contenedor del banner -->
+        <div class="banner-container">
+            <!-- Imagen del gato -->
+            <div class="mascota">
+                <!--<img src="{!$Resource.ri_1}" alt="GATO Mascota BICE"/> descomentar el estatico para visualforce -->
+                <img src="C:\Users\Test\Desktop\BVSALEFORCE\BV_IMG\ri_1.png" alt="GATO Mascota BICE">
+            </div>
+            <!-- Texto del título -->
+            <h1>Renta Vitalicias > Pago Pension > PAGO DEVENGADA NO COBRADA CLIENTE VIGENTE</h1>
+            <!-- Texto de actualización -->
+            <p class="updated-info">Actualizado el: 25/04/2024 M.R.F.</p>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="text-box">
+            <!-- Párrafos -->
+            <div class="fc0">
+                <p><strong>Instrucciones para solicitar una pensión devengada no cobrada para un cliente vigente</strong></p>
+            </div>
+            <p><span class="number">1.</span> Verificar el medio de pago de la pensión, ya que esta opción <span class="highlight">se aplica a pagos emitidos a través de SERVIPAG, 
+                tesorería o custodia tesorería.</span> Esta última se utiliza cuando los beneficiarios deben demostrar su derecho a pensión
+                antes de recibir los pagos devengados y no cobrados.</p>
+
+            <p><span class="number">2.</span> Es importante considerar que el pago debe estar caducado para realizar esta solicitud. Por ejemplo, la pensión del presente mes 
+                caduca el último día del mes siguiente, y luego se deben esperar 10 días adicionales para que los pagos sean devueltos a la compañía. 
+                Solo entonces se puede solicitar la pensión devengada para el cliente vigente..</p>
+
+            <p><span class="number">3.</span> Si se solicita la pensión en tesorería, el ejecutivo debe asegurarse de que el cheque no esté en la caja.</p>
+
+            <p><span class="number">4.</span> Recuerda que, para las pensiones pagadas vía SERVIPAG, <span class="highlight">caducan a fin de mes del siguiente mes.</span></p>
+
+            <p><span class="number">5.</span> Antes de enviar la documentación, asegúrate de digitalizarla y adjuntarla a la solicitud de servicio correspondiente.</p>
+
+            <p><span class="number">6.</span> Es importante notificar al cliente tan pronto como se resuelva la solicitud de servicio, ya que, si el pago vuelve a caducar, 
+                el cliente o beneficiario deberá volver a firmar la solicitud para gestionar nuevamente el pago.</p>
+        </div>
+
+        <!-- Contenedor de botones -->
+        <div class="button-container">
+            <a><button class="formulario">Formulario Prellenado</button></a>
+            <a><button class="benlar">Ir a Benlar</button></a>
+        </div>
+    </body>
+    </html>
+</apex:page>
+
+        <!-- Contenedor de botones 
+        <div class="button-container">
+            <button>Ir a Formulario de cambio de vía de pago Automático</button>
+            <button class="formulario">Descargar Formulario Privado</button>
+            <button class="benlar">Ir a Benlar</button>
+        </div> -->
+
+<!-- 
+    Vers. 4.0.0
+    Autor: Marco Reyes Farias
+    Fecha: 24/04/2024
+-->

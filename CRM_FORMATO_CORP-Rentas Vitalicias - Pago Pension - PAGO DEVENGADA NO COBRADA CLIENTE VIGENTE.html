@@ -1,0 +1,189 @@
+<apex:page showHeader="false" standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false">
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Documento HTML</title>
+        <style type="text/css">
+            /* Estilo del banner azul en la parte superior */
+            .banner-blue {
+                background-color: #1F61F7; /* Color de la franja superior */
+                height: 50px; /* Altura de la franja */
+                width: 100%; /* Ancho total */
+                position: fixed; /* Fijar la franja en la parte superior */
+                top: 0; /* Posicionar la franja en la parte superior */
+                z-index: 1000; /* Asegurar que esté por encima del resto del contenido */
+            }
+            /* Estilo para el contenedor del banner */
+            .banner-container {
+                background-color: #FFFFFF; /* Color del contenedor del banner */
+                padding: 10px; /* Ajuste del espaciado interno del banner */
+                margin-top: 50px; /* Margen superior, para dejar espacio debajo de la franja */
+                display: flex; /* Utilizar flexbox para alinear los elementos */
+                align-items: center; /* Alinear los elementos verticalmente */
+            }
+
+            /* Estilo para la imagen del gato */
+            .mascota img {
+                width: 150px; /* Tamaño de la imagen */
+                height: auto; /* Altura automática para mantener la proporción */
+                margin-right: 20px; /* Margen derecho para separar la imagen del texto */
+            }
+
+            /* Estilo para el contenido del párrafo */
+            .content {
+                margin-top: 4.35pt;
+                margin-left: 0;
+                margin-bottom: 0pt;
+                font-size: 14pt;
+                border: 1px solid #ccc;
+                padding: 10px;
+                border-radius: 10px; /* Esquinas curvadas */
+            }
+
+            /* Estilo para el encabezado */
+            h1 {
+                margin-top: 16.55pt;
+                margin-left: 0;
+                margin-bottom: 0pt;
+                font-size: 18pt;
+            }
+
+            /* Estilo para la información */
+            .info {
+                margin: 22.3pt 1.6pt 0pt 0;
+                line-height: 78%;
+                font-size: 12pt;
+                text-align: right;
+                color: #060b25;
+            }
+
+            /* Estilo para los botones */
+            .button-container {
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            .button-container button {
+                background-color: #1F61F7;
+                color: #FFFFFF;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                margin-bottom: 10px;
+                width: 100%;
+                max-width: 300px; /* Ajusta el ancho máximo de los botones */
+                display: block;
+            }
+
+            /* Estilo para el botón de formulario */
+            .button-container button.formulario {
+                background-color: #7CE479;
+            }
+
+            /* Estilo para el botón de Benlar */
+            .button-container button.benlar {
+                background-color: #DC143C;
+            }
+            .fc0 {
+                color: rgb(31, 97, 240);
+            }
+            .content-blue {
+                background-color: #F1F6FE; /* Color de fondo personalizado */
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Contenedor del banner azul en la parte superior -->
+        <div class="banner-blue"></div>
+        <!-- Contenedor del banner en la parte superior -->
+        <div class="banner-container">
+            <!-- Contenido del banner aquí -->
+            <!-- Imagen flotante a la izquierda -->
+            <img src="C:\Users\Test\Desktop\BVSALEFORCE\BV_IMG\ri_1.png" width="100" height="100" alt="" class="float-left"/>
+            <!-- Encabezado -->
+            <div class="fc0">
+                <h1> Renta Vitalicias > Pago Pension >  PAGO DEVENGADA NO COBRADA CLIENTE VIGENTE</h1>
+            </div>
+            <!-- Texto de actualización -->
+            <p class="info">Actualizado el: 25/04/2024 M.R.F.</p>
+        </div>
+
+        <!-- Contenedor de la matriz de dos columnas -->
+        <div class="grid-container">
+            <!-- Párrafos -->
+            
+                <div class="fc0">
+                    <p><strong>PAGO DEVENGADA NO COBRADA CLIENTE VIGENTE</strong></p>
+                </div>
+                <div class="content content-blue"> <!-- Agregado de la clase content-blue -->
+                <p>Instrucciones para solicitar una pensión devengada no cobrada para un cliente vigente:</p>
+                <div class="content">
+                <p><span class="color-span">1.</span> Verificar el medio de pago de la pensión, ya que esta opción se aplica a pagos emitidos a través de SERVIPAG, 
+                    tesorería o custodia tesorería. <span class="highlight">Esta última se utiliza cuando los beneficiarios deben demostrar su derecho a pensión
+                    antes de recibir los pagos devengados y no cobrados.</span></p>
+                </div>
+            </div>
+
+            <div class="content content-blue"> <!-- Agregado de la clase content-blue -->
+            <div class="content">
+                <p><span class="color-span">2.</span> Es importante considerar que el pago debe estar caducado para realizar esta solicitud. Por ejemplo, la pensión del presente mes 
+                    caduca el último día del mes siguiente, y luego se deben esperar 10 días adicionales para que los pagos sean devueltos a la compañía. 
+                    Solo entonces se puede solicitar la pensión devengada para el cliente vigente.</p>
+            </div>
+            </div>
+                
+            <div class="content content-blue"> <!-- Agregado de la clase content-blue -->
+            <div class="content">
+                <p><span class="color-span">3.</span> Si se solicita la pensión en tesorería, el ejecutivo debe asegurarse de que el cheque no esté en la caja.</p>
+            </div>
+            </div>
+                    
+            <div class="content content-blue"> <!-- Agregado de la clase content-blue -->
+            <div class="content">
+                <p><span class="color-span">4.</span> Recuerda que, para las pensiones pagadas vía SERVIPAG, <span class="highlight">caducan a fin de mes del siguiente mes.</span></p>
+            </div>
+            </div>
+                    
+            <div class="content content-blue"> <!-- Agregado de la clase content-blue -->
+            <div class="content">
+                <p><span class="color-span">5.</span> Antes de enviar la documentación, asegúrate de digitalizarla y adjuntarla a la solicitud de servicio correspondiente.</p>
+            </div>
+            </div>
+                    
+            <div class="content content-blue"> <!-- Agregado de la clase content-blue -->
+            <div class="content">
+                <p><span class="color-span">6.</span> Es importante notificar al cliente tan pronto como se resuelva la solicitud de servicio, ya que, si el pago vuelve a caducar, 
+                    el cliente o beneficiario deberá volver a firmar la solicitud para gestionar nuevamente el pago.</p>
+            </div>
+            </div>
+            
+        </div>
+
+        <!-- Contenedor de botones -->
+        <div class="button-container">
+            <a><button class="formulario">Formulario Prellenado</button></a>
+            <a><button class="benlar">Ir a Benlar</button></a>
+        </div>
+    </body>
+    </html>
+</apex:page>
+
+        <!-- Contenedor de botones 
+        <div class="button-container">
+            <button>Ir a Formulario de cambio de vía de pago Automático</button>
+            <button class="formulario">Descargar Formulario Privado</button>
+            <button class="benlar">Ir a Benlar</button>
+        </div>
+
+            Nota de prueba 
+        <div class="content">
+            <p><strong>PRUEBA NOTA</strong> Prueba.</p>
+            <p>Texto Prueba y acceso a <span class="highlight">benlar</span> #4</p>
+        </div>-->
+
+<!-- 
+    Vers. 4.0.0
+    Autor: Marco Reyes Farias
+    Fecha: 24/04/2024
+-->

@@ -1,0 +1,380 @@
+<apex:page>
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="utf-8" />
+            <title>Sticky notes using CSS3 and Google Fonts (Step 5) MR</title>
+            <!-- Referencia al archivo CSS en Visualforce -->
+            <!-- debo habilitar el apex:stylesheet con la url del saleforce donde esta el css para que funcione -->
+            <!-- <apex:stylesheet value="{!URLFOR($Resource.Visualforce)}" /> -->
+            <link href="http://fonts.googleapis.com/css?family=Reenie+Beanie:regular" rel="stylesheet" type="text/css"/> 
+            <apex:stylesheet value="{!URLFOR($Resource.Visualforce)}" />
+            <style type="text/css">
+                /* Estilo para la franja superior */
+                .banner-blue {
+                    background-color: #1F61F7; /* Color de la franja superior */
+                    height: 50px; /* Altura de la franja */
+                    width: 100%; /* Ancho total */
+                    position: fixed; /* Fijar la franja en la parte superior */
+                    top: 0; /* Posicionar la franja en la parte superior */
+                    z-index: 1000; /* Asegurar que esté por encima del resto del contenido */
+                }
+
+                /* Estilo para el contenedor del banner */
+                .banner-container {
+                    background-color: #FFFFFF; /* Color del contenedor del banner */
+                    padding: 10px; /* Ajuste del espaciado interno del banner */
+                    display: flex; /* Utilizar flexbox para alinear los elementos */
+                    align-items: center; /* Alinear los elementos verticalmente */
+                    position: fixed; /* Fijar el contenedor del banner en la parte superior */
+                    top: 50px; /* Posicionar el contenedor del banner debajo del primer banner */
+                    width: 100%; /* Ancho total */
+                    z-index: 999; /* Asegurar que esté por encima del contenido */
+                }
+
+                /* Estilo para la imagen del gato */
+                .mascota img {
+                    width: 150px; /* Tamaño de la imagen */
+                    height: auto; /* Altura automática para mantener la proporción */
+                    margin-right: 20px; /* Margen derecho para separar la imagen del texto */
+                }
+
+                /* Estilos generales del cuerpo del documento y letras, formato (hacer biblioteca) */
+                body {
+                    font-family:arial,sans-serif; /* Se especifica la fuente predeterminada */
+                    font-size:100%; /* Se especifica el tamaño de fuente base */
+                    margin:0.1em; /* Se establece el margen exterior del cuerpo */
+                    background:#EBEFF5; /* Se establece el color de fondo del cuerpo (usar el plomito del bicevida) */
+                    color:#fff; /* Se establece el color de texto predeterminado */
+                    padding-top: 120px; /* Compensar el espacio ocupado por los banners fijos */
+                }
+                /* Estilos para el título */
+                h1 {
+                    text-align: center; /* Centrar el texto horizontalmente */
+                    color: #1F61F7; /* Color del texto */
+                    margin-bottom: 0; /* Eliminar margen inferior */
+                }
+                /* Estilos para encabezados y párrafos */
+                h2,p {
+                    font-size:100%; /* Se especifica el tamaño de fuente predeterminado */
+                    font-weight:normal; /* Se establece el peso de la fuente como normal */
+                }
+                /* Estilos para el elemento <li> que contiene el título "Titulo de solución" */
+                ol li:first-child {
+                    font-size: 150%; /* Tamaño de fuente aumentado */
+                    font-weight: bold; /* Peso de la fuente */
+                    font-family: 'Arial', sans-serif; /* Tipo de fuente */
+                    color: #1F61F7; /* Color del texto */
+                    margin: 20px 0; /* Margen superior e inferior de 20px, sin margen a los lados */
+                }
+                /* Estilos para listas no ordenadas y elementos de lista */
+                ul,li {
+                    list-style:none; /* Se eliminan los estilos de viñeta de las listas */
+                }
+                /* Estilos para la lista no ordenada que contiene las notas adhesivas */
+                ul {
+                    overflow:hidden; /* Se establece el comportamiento de desbordamiento */
+                    padding:1em; /* Se establece el relleno interno de la lista */
+                }
+                /* Estilo para agregar espacio superior a todas las listas no ordenadas */
+                ul {
+                    padding: 150px; /* Ajuste el espacio alrededor de las notas adhesivas */
+                    display: flex; /* Utilizamos flexbox para alinear las notas adhesivas */
+                    flex-wrap: wrap; /* Permitimos que las notas adhesivas se envuelvan en varias líneas */
+                    justify-content: space-around; /* Distribuir uniformemente las notas adhesivas */
+                }
+                /* Estilos para efecto de resaltado de texto dentro de las notas adhesivas */
+                .highlight {
+                    background-color: yellow; /* Color de fondo amarillo */
+                    color: black; /* Color de texto negro */
+                }
+                /* Estilos para los elementos de lista que contienen las notas adhesivas */
+                ul li a {
+                    text-decoration:none; /* Se elimina el subrayado de los enlaces */
+                    color:#000; /* Se establece el color de texto de los enlaces */
+                    background:#fff; /* Se establece el color de fondo de los enlaces */
+                    display:flex; /* Se convierte el enlace en un bloque */
+                    flex-direction: column; /* Apilar elementos verticalmente */
+                    height:15em; /* Se establece la altura de los enlaces (cambia el tamaño de las notas)*/
+                    width:15em; /* Se establece el ancho de los enlaces (cambia el tamaño de las notas)*/
+                    padding:1em; /* Se establece el relleno interno de los enlaces */
+                    /* Estilos para la sombra de la caja */
+                    -moz-box-shadow:5px 5px 7px rgba(33,33,33,1);
+                    -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+                    box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+                    /* Transiciones para la transformación */
+                    -moz-transition:-moz-transform .15s linear;
+                    -o-transition:-o-transform .15s linear;
+                    -webkit-transition:-webkit-transform .15s linear;
+                } 
+                /* Estilos para los elementos de lista */
+                ul li {
+                    flex: 0 0 calc(33.33% - 20px); /* Ancho de las notas adhesivas (33.33% del ancho de la pantalla) */
+                    margin: 10px; /* Ajuste del margen entre las notas adhesivas */
+                    /*float: left; /* Se colocan las notas adhesivas en línea */
+                    position: relative; /* Agregar posición relativa para z-index */
+                }
+                /* Estilos para los títulos dentro de las notas adhesivas */
+                ul li h2 {
+                    font-size:140%; /* Se especifica el tamaño de fuente del título */
+                    font-weight:bold; /* Se establece el peso de la fuente como negrita */
+                    padding-bottom:10px; /* Se establece el relleno inferior del título */
+                }
+                /* Estilos para los párrafos dentro de las notas adhesivas (font-family: 'Reenie Beanie' de google) */
+                ul li p {
+                    font-family:"Reenie Beanie",arial,sans-serif; /* Se especifica la fuente del párrafo */
+                    font-size: calc(1.5vw + 10px); /* Usamos una fórmula para ajustar el tamaño del texto */
+                    flex-grow: 1; /* Permite que el párrafo crezca para ocupar el espacio disponible */
+                    overflow: hidden; /* Oculta el texto que se desborde del cuadro */
+                    text-overflow: ellipsis; /* Agrega puntos suspensivos cuando el texto es demasiado largo */
+                    flex-wrap: wrap; /* Permite que el texto se ajuste automáticamente en varias líneas */
+                    word-wrap: break-word; /* Permite que las palabras largas se rompan y se muestren en varias líneas */
+                    margin-top: 10px; /* Ajuste de margen superior */
+                    margin-bottom: 10px; /* Ajuste de margen inferior */
+                }
+                /* Estilos para la transformación de los enlaces */
+                ul li a {
+                    -webkit-transform: rotate(-6deg); /* Rotación para los enlaces */
+                    -o-transform: rotate(-6deg); /* Rotación para los enlaces */
+                    -moz-transform:rotate(-6deg); /* Rotación para los enlaces */
+                }
+                /* Estilos adicionales para los enlaces alternos */
+                ul li:nth-child(even) a {
+                    -o-transform:rotate(4deg); /* Rotación para los enlaces pares */
+                    -webkit-transform:rotate(4deg); /* Rotación para los enlaces pares */
+                    -moz-transform:rotate(4deg); /* Rotación para los enlaces pares */
+                    position:relative; /* Posición relativa para ajustar la posición */
+                    top:5px; /* Ajuste de la posición */
+                    background:#cfc; /* Color de fondo para los enlaces pares */
+                }
+                /* Estilos adicionales para los enlaces con índice múltiplo de 3 */
+                ul li:nth-child(3n) a {
+                    -o-transform:rotate(-3deg); /* Rotación para los enlaces con índice múltiplo de 3 */
+                    -webkit-transform:rotate(-3deg); /* Rotación para los enlaces con índice múltiplo de 3 */
+                    -moz-transform:rotate(-3deg); /* Rotación para los enlaces con índice múltiplo de 3 */
+                    position:relative; /* Posición relativa para ajustar la posición */
+                    top:-5px; /* Ajuste de la posición */
+                    background:#ccf; /* Color de fondo para los enlaces con índice múltiplo de 3 */
+                }
+                /* Estilos adicionales para los enlaces con índice múltiplo de 5 */
+                ul li:nth-child(5n) a {
+                    -o-transform:rotate(5deg); /* Rotación para los enlaces con índice múltiplo de 5 */
+                    -webkit-transform:rotate(5deg); /* Rotación para los enlaces con índice múltiplo de 5 */
+                    -moz-transform:rotate(5deg); /* Rotación para los enlaces con índice múltiplo de 5 */
+                    position:relative; /* Posición relativa para ajustar la posición */
+                    top:-10px; /* Ajuste de la posición */
+                }
+                /* Estilos al pasar el cursor sobre los enlaces */
+                ul li a:hover,ul li a:focus {
+                    box-shadow:10px 10px 7px rgba(0,0,0,.7); /* Sombra al pasar el cursor */
+                    -moz-box-shadow:10px 10px 7px rgba(0,0,0,.7); /* Sombra al pasar el cursor */
+                    -webkit-box-shadow: 10px 10px 7px rgba(0,0,0,.7); /* Sombra al pasar el cursor */
+                    /*determina el efecto por navegador */
+                    -webkit-transform: scale(1.50); /* Escalado al pasar el cursor */
+                    -moz-transform: scale(1.50); /* Escalado al pasar el cursor */
+                    -o-transform: scale(1.50); /* Escalado al pasar el cursor */
+                    position:relative; /* Posición relativa para ajustar la posición */
+                    z-index:5; /* Índice z para que el enlace esté por encima 5 */
+                }
+                /* Estilos para la lista ordenada */
+                ol {
+                    text-align:center; /* Alineación del texto al centro */
+                }
+                ol li {
+                    display:inline;
+                    padding-right:1em;
+                }
+                ol li a {
+                    color:#1F61F7;
+                }
+                /* aca va el botones se dividen en 3*/
+                /* Boton para hipervienculos*/
+                button {
+                    background-color: #1F61F7;
+                    color: #FFFFFF;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    margin-bottom: 10px;
+                    display: block;
+                    width: 100%;
+                }
+                /* Boton para Formularios*/
+                button.formulario {
+                    background-color: #7CE479;
+                }
+                /* Boton para Formularios*/
+                button.benlar {
+                    background-color: #DC143C;
+                }
+
+            </style>
+        </head>
+        <body>
+            <!-- Contenedor del primer banner -->
+            <div class="banner-blue"></div>
+            <!-- Contenedor del segundo banner -->
+            <div class="banner-container">
+                <!-- Contenido del banner aquí -->
+                <!-- Contenedor del gato ("C:\Users\Test\Desktop\BVSALEFORCE\BV_IMG\ri_1.png") dejar imagen como recurso estatico -->
+                <div class="mascota">
+                    <!--<img src="{!$Resource.ri_1}" alt="GATO Mascota BICE"/> descomentar el estatico para visualforce -->
+                    <img src="C:\Users\Test\Desktop\BVSALEFORCE\BV_IMG\ri_1.png" alt="GATO Mascota BICE">
+                </div>
+                <!-- Título -->
+                <h1> Rentas Vitalicias > Pago Pension > PAGO DEVENGADA NO COBRADO CLIENTE FALLECIDO </h1>
+                <!-- Lista ordenada para los elementos "Prueba" y el enlace vacío -->
+                <ol>
+                    <p style="color: #7CE479;">Actualizado el: 24/04/2024 M.R.F.</p>
+                    <li><a href="#"></a></li> <!-- Enlace vacío en la lista ordenada -->
+                </ol>
+            </div>
+            <!-- Lista ordenada para las notas adhesivas -->
+            <ul>
+                <!-- Nota adhesiva #1 -->
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Título de la nota adhesiva -->
+                        <h2>Tip #1</h2>
+                        <!-- Contenido de la nota adhesiva -->
+                        <p>Verificar el estado de la póliza y los beneficiarios registrados</p>
+                        <p><span class="highlight">fotocopias del carnét</span></p>
+                    </a>
+                </li>
+                <!-- Nota adhesiva #2 -->
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Título de la nota adhesiva -->
+                        <h2>Tip #2</h2>
+                        <!-- Contenido de la nota adhesiva -->
+                        <p>Para pagos a través de Serviestado y Servipag</p>
+                        <p>es importante considerar que <span class="highlight">el pago caduca después de 45 días desde su emisión</span></p>
+                    </a>
+                </li>
+                <!-- Nota adhesiva #3 -->
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Contenido de la nota adhesiva -->
+                        <p>La devolución del pago se efectúa a fin de mes del siguiente mes.</p>
+                        <p><span class="highlight">En el caso de credivida, no caduca</span></p>
+                    </a>
+                </li>
+                <!-- Nota adhesiva #4 -->
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Título de la nota adhesiva -->
+                        <h2>Tip #3</h2>
+                        <!-- Contenido de la nota adhesiva -->
+                        <p>Para retirar una pensión devengada y no cobrada, se necesita una Declaración Poder para cobro de pensión</p>
+                    </a>
+                </li>
+                <!-- Nota adhesiva #5 -->
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Contenido de la nota adhesiva -->
+                        <p>devengada y no cobrada, firmada ante notario. Los requisitos incluyen que la pensión sea de renta vitalicia</p>
+                    </a>
+                </li>
+                <!-- Nota adhesiva #6 -->
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Contenido de la nota adhesiva -->
+                        <p>simple y que el monto acumulado no cobrado no exceda las 5 UTA. Además, se requiere adjuntar copias</p>
+                    </a>
+                </li>
+                <!-- Nota adhesiva #7 -->
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Contenido de la nota adhesiva -->
+                        <p>del certificado de matrimonio y/o certificado de nacimiento de los herederos legales.</p>
+                    </a>
+                </li>
+
+                <!-- Nota adhesiva #8 -->
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Título de la nota adhesiva -->
+                        <h2>Tip #4</h2>
+                        <!-- Contenido de la nota adhesiva -->
+                        <p>En casos especiales, como cuando la solicitante es la madre de un hijo no matrimonial, se</p>
+                    </a>
+                </li>
+                <!-- Nota adhesiva #9 -->
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Contenido de la nota adhesiva -->
+                        <p>requiere demostrar su estado civil y su dependencia económica del pensionado, mediante informe</p>
+                    </a>
+                </li>
+                <!-- Nota adhesiva #10 -->
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Contenido de la nota adhesiva -->
+                        <p>social (debe decir “vivía a expensas del pensionado fallecido”) y declaración notarial con testigos</p>
+                        <p><span class="highlight">Tanto la madre como el hijo tendrían derecho a pensión </span></p>
+                    </a>
+                </li>
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Título de la nota adhesiva -->
+                        <h2>Tip #5</h2>
+                        <!-- Contenido de la nota adhesiva -->
+                        <p>Las retenciones judiciales deben ser reclamadas a través de los tribunales, ya que estos</p>
+                    </a>
+                </li>
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Contenido de la nota adhesiva -->
+                        <p>deben emitir la orden de pago a los beneficiarios del fallecido y cesar el pago por fallecimiento</p>
+                    </a>
+                </li>
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Título de la nota adhesiva -->
+                        <h2>Tip #6</h2>
+                        <!-- Contenido de la nota adhesiva -->
+                        <p>Recuerda digitalizar y adjuntar todos los documentos necesarios a la solicitud de servicio</p>
+                    </a>
+                </li>
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Contenido de la nota adhesiva -->
+                        <p>correspondiente antes de enviarlos. Para solicitar pensiones devengadas no cobradas a través</p>
+                    </a>
+                </li>
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Contenido de la nota adhesiva -->
+                        <p>de servipag, haz clic en el formulario prellenado</p>
+                            <!-- Enlace que contiene el botón -->
+                            <a href="https://www.google.com/" target="_blank" class="formulario" id="formularioLink">
+                                <!-- Botón -->
+                                <button class="formulario" onclick="event.stopPropagation()">Formulario</button>
+                            </a>
+                    </a>
+                </li>
+            </ul>
+        </body>
+    </html>
+</apex:page>
+<!-- 
+    Vers. 4.1
+    Autor: Marco Reyes Farias
+    Fecha: 22/04/2024
+-->
+

@@ -1,0 +1,313 @@
+<apex:page>
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="utf-8" />
+            <title>Sticky notes using CSS3 and Google Fonts (Step 5) MR</title>
+        <!-- Referencia al archivo CSS en Visualforce -->
+        <!-- debo habilitar el apex:stylesheet con la url del saleforce donde esta el css para que funcione -->
+        <!-- <apex:stylesheet value="{!URLFOR($Resource.Visualforce)}" /> -->
+            <link href="http://fonts.googleapis.com/css?family=Reenie+Beanie:regular" rel="stylesheet" type="text/css"/> 
+            <apex:stylesheet value="{!URLFOR($Resource.Visualforce)}" />
+            <style type="text/css">
+                /* Estilo del banner azul en la parte superior */
+                .banner-blue {
+                top: 0;
+                left: 0;
+                width: 100%;
+                background-color: #1F61F7;
+                height: 40px;
+                }
+                /* Estilo del banner corporativo en la parte superior */
+                .banner-container {
+                background-color: #FFFFFF; /* Color del banner */
+                padding: 0.2px; /* Ajuste del espaciado interno del banner 10*/
+                margin-bottom: 0.2px; /* Margen inferior del banner 20*/
+                display: flex;
+                /*justify-content: space-between;*/
+                align-items: center;
+                 }
+                /* Reset de márgenes y rellenos para asegurar la consistencia visual, no cambiar */
+                * {
+                    margin:0.2;
+                    padding:0.2;
+                }
+                /* Estilos generales del cuerpo del documento y letras, formato (hacer biblioteca) */
+                body {
+                    font-family:arial,sans-serif; /* Se especifica la fuente predeterminada */
+                    font-size:100%; /* Se especifica el tamaño de fuente base */
+                    margin:0.1em; /* Se establece el margen exterior del cuerpo */
+                    background:#EBEFF5; /* Se establece el color de fondo del cuerpo (usar el plomito del bicevida) */
+                    color:#fff; /* Se establece el color de texto predeterminado */
+                }
+                /* Estilos para el título */
+                h1 {
+                    text-align: center; /* Centrar el texto horizontalmente */
+                    color: #1F61F7; /* Color del texto */
+                    margin-bottom: 0; /* Eliminar margen inferior */
+                }
+                /* Estilos para encabezados y párrafos */
+                h2,p {
+                    font-size:100%; /* Se especifica el tamaño de fuente predeterminado */
+                    font-weight:normal; /* Se establece el peso de la fuente como normal */
+                }
+                /* Estilos para el elemento <li> que contiene el título "Titulo de solución" */
+                ol li:first-child {
+                    font-size: 150%; /* Tamaño de fuente aumentado */
+                    font-weight: bold; /* Peso de la fuente */
+                    font-family: 'Arial', sans-serif; /* Tipo de fuente */
+                    color: #1F61F7; /* Color del texto */
+                    margin: 500px 0; /* Margen superior e inferior de 20px, sin margen a los lados */
+                }
+                /* Estilos para listas no ordenadas y elementos de lista */
+                ul,li {
+                    list-style:none; /* Se eliminan los estilos de viñeta de las listas */
+                }
+                /* Estilos para la lista no ordenada que contiene las notas adhesivas */
+                ul {
+                    overflow:hidden; /* Se establece el comportamiento de desbordamiento */
+                    padding:1em; /* Se establece el relleno interno de la lista */
+                }
+                /* Estilos para efecto de resaltado de texto dentro de las notas adhesivas */
+                .highlight {
+                    background-color: yellow; /* Color de fondo amarillo */
+                    color: black; /* Color de texto negro */
+                }
+                /* Estilos para los elementos de lista que contienen las notas adhesivas */
+                ul li a {
+                    text-decoration:none; /* Se elimina el subrayado de los enlaces */
+                    color:#000; /* Se establece el color de texto de los enlaces */
+                    background:#fff; /* Se establece el color de fondo de los enlaces */
+                    display:flex; /* Se convierte el enlace en un bloque */
+                    flex-direction: column; /* Apilar elementos verticalmente */
+                    height:15em; /* Se establece la altura de los enlaces (cambia el tamaño de las notas)*/
+                    width:15em; /* Se establece el ancho de los enlaces (cambia el tamaño de las notas)*/
+                    padding:1em; /* Se establece el relleno interno de los enlaces */
+                    /* Estilos para la sombra de la caja */
+                    -moz-box-shadow:5px 5px 7px rgba(33,33,33,1);
+                    -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+                    box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+                    /* Transiciones para la transformación */
+                    -moz-transition:-moz-transform .15s linear;
+                    -o-transition:-o-transform .15s linear;
+                    -webkit-transition:-webkit-transform .15s linear;
+                } 
+                /* Estilos para los elementos de lista */
+                ul li {
+                    margin:1em; /* Se establece el margen entre las notas adhesivas */
+                    float:left; /* Se colocan las notas adhesivas en línea */
+                    position: relative; /* Agregar posición relativa para z-index */
+                }
+                /* Estilos para los títulos dentro de las notas adhesivas */
+                ul li h2 {
+                    font-size:140%; /* Se especifica el tamaño de fuente del título */
+                    font-weight:bold; /* Se establece el peso de la fuente como negrita */
+                    padding-bottom:10px; /* Se establece el relleno inferior del título */
+                }
+                /* Estilos para los párrafos dentro de las notas adhesivas (font-family: 'Reenie Beanie' de google) */
+                ul li p {
+                    font-family:"Reenie Beanie",arial,sans-serif; /* Se especifica la fuente del párrafo */
+                    /* font-size:180%; /* Se especifica el tamaño de fuente del párrafo */
+                    font-size: calc(1.5vw + 10px); /* Usamos una fórmula para ajustar el tamaño del texto */
+                    flex-grow: 1; /* Permite que el párrafo crezca para ocupar el espacio disponible */
+                    overflow: hidden; /* Oculta el texto que se desborde del cuadro */
+                    /*text-overflow: ellipsis; / Agrega puntos suspensivos cuando el texto es demasiado largo */
+                    /*white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+                    flex-wrap: wrap; /* Permite que el texto se ajuste automáticamente en varias líneas */
+                    /*word-wrap: break-word; /* Permite que las palabras largas se rompan y se muestren en varias líneas */
+                }
+                /* Estilos para la transformación de los enlaces */
+                ul li a {
+                    -webkit-transform: rotate(-6deg); /* Rotación para los enlaces */
+                    -o-transform: rotate(-6deg); /* Rotación para los enlaces */
+                    -moz-transform:rotate(-6deg); /* Rotación para los enlaces */
+                }
+                /* Estilos adicionales para los enlaces alternos */
+                ul li:nth-child(even) a {
+                    -o-transform:rotate(4deg); /* Rotación para los enlaces pares */
+                    -webkit-transform:rotate(4deg); /* Rotación para los enlaces pares */
+                    -moz-transform:rotate(4deg); /* Rotación para los enlaces pares */
+                    position:relative; /* Posición relativa para ajustar la posición */
+                    top:5px; /* Ajuste de la posición */
+                    background:#cfc; /* Color de fondo para los enlaces pares */
+                }
+                /* Estilos adicionales para los enlaces con índice múltiplo de 3 */
+                ul li:nth-child(3n) a {
+                    -o-transform:rotate(-3deg); /* Rotación para los enlaces con índice múltiplo de 3 */
+                    -webkit-transform:rotate(-3deg); /* Rotación para los enlaces con índice múltiplo de 3 */
+                    -moz-transform:rotate(-3deg); /* Rotación para los enlaces con índice múltiplo de 3 */
+                    position:relative; /* Posición relativa para ajustar la posición */
+                    top:-5px; /* Ajuste de la posición */
+                    background:#ccf; /* Color de fondo para los enlaces con índice múltiplo de 3 */
+                }
+                /* Estilos adicionales para los enlaces con índice múltiplo de 5 */
+                ul li:nth-child(5n) a {
+                    -o-transform:rotate(5deg); /* Rotación para los enlaces con índice múltiplo de 5 */
+                    -webkit-transform:rotate(5deg); /* Rotación para los enlaces con índice múltiplo de 5 */
+                    -moz-transform:rotate(5deg); /* Rotación para los enlaces con índice múltiplo de 5 */
+                    position:relative; /* Posición relativa para ajustar la posición */
+                    top:-10px; /* Ajuste de la posición */
+                }
+                /* Estilos al pasar el cursor sobre los enlaces */
+                ul li a:hover,ul li a:focus {
+                    box-shadow:10px 10px 7px rgba(0,0,0,.7); /* Sombra al pasar el cursor */
+                    -moz-box-shadow:10px 10px 7px rgba(0,0,0,.7); /* Sombra al pasar el cursor */
+                    -webkit-box-shadow: 10px 10px 7px rgba(0,0,0,.7); /* Sombra al pasar el cursor */
+                    /*determina el efecto por navegador */
+                    -webkit-transform: scale(1.50); /* Escalado al pasar el cursor */
+                    -moz-transform: scale(1.50); /* Escalado al pasar el cursor */
+                    -o-transform: scale(1.50); /* Escalado al pasar el cursor */
+                    position:relative; /* Posición relativa para ajustar la posición */
+                    z-index:5; /* Índice z para que el enlace esté por encima 5 */
+                }
+                /* Estilos para la lista ordenada */
+                ol {
+                    text-align:center; /* Alineación del texto al centro */
+                }
+                ol li {
+                    display:inline;
+                    padding-right:1em;
+                }
+                ol li a {
+                    color:#1F61F7;
+                }
+                /* aca va el botones se dividen en 3*/
+                /* Boton para hipervienculos*/
+                button {
+                    background-color: #1F61F7;
+                    color: #FFFFFF;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    margin-bottom: 10px;
+                    display: block;
+                    width: 100%;
+                }
+                /* Boton para Formularios*/
+                button.formulario {
+                    background-color: #7CE479;
+                }
+                /* Boton para Formularios*/
+                button.benlar {
+                    background-color: #DC143C;
+                }
+                /*Banner 2 de color corporativo blanco*/
+                .banner-container {
+                    background-color: #FFFFFF; /* Color del banner */
+                    padding: 10px; /* Ajuste del espaciado interno del banner */
+                    margin-bottom: 20px; /* Margen inferior del banner */
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    max-height: 200px; /* Altura máxima del contenedor */
+                    overflow-y: hidden; /* Oculta la barra de desplazamiento vertical */
+                 }
+                 .mascota {
+                    margin-top: 20px; /* Ajusta el margen superior según sea necesario */
+                }
+                .banner-container .mascota img {
+                    width: 250px; /* Tamaño de la mascota */
+                    /* Ajusta la alineación vertical de la imagen */
+                    align-self: flex-start; /* Esto alineará la imagen en la parte superior del contenedor */
+                }
+                /* Estilo para agregar espacio superior a todas las listas no ordenadas */
+                ul {
+                    padding: 60px;
+                }
+            </style>
+        </head>
+        <body>
+            <!-- Contenedor del banner azul en la parte superior -->
+          <div class="banner-blue"></div>
+            <div class="banner-container">
+                <!-- Contenido del banner aquí -->
+                <!-- Contenedor del gato ("C:\Users\Test\Desktop\BVSALEFORCE\BV_IMG\ri_1.png") dejar imagen como recurso estatico -->
+                <div class="mascota">
+                    <!--<img src="{!$Resource.ri_1}" alt="GATO Mascota BICE"/> descomentar el estatico para visualforce -->
+                    <img src="C:\Users\Test\Desktop\BVSALEFORCE\BV_IMG\ri_1.png" alt="GATO Mascota BICE">
+                </div>
+                <!-- Título -->
+                <h1> Titulo > Titulo > Titulo </h1>
+                <!-- Lista ordenada para los elementos "Prueba" y el enlace vacío -->
+                <ol>
+                <p style="color: #7CE479;">Actualizado el: 22/04/2024 M.R.F.</p>
+                <li><a href="#"></a></li> <!-- Enlace vacío en la lista ordenada -->
+            </ol>
+            </div>
+            <!-- Lista no ordenada para las notas adhesivas -->
+            <ul>
+                <!-- Nota adhesiva #1 -->
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Título de la nota adhesiva -->
+                        <h2>Tip #1</h2>
+                        <!-- Contenido de la nota adhesiva -->
+                        <p>Texto resumido #1</p>
+                    </a>
+                </li>
+                <!-- Nota adhesiva #2 -->
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Título de la nota adhesiva -->
+                        <h2>Tip #2</h2>
+                        <!-- Contenido de la nota adhesiva -->
+                        <p>Texto resumido y boton enlace #2</p>
+                        <button>Boton1</button>
+                    </a>
+                </li>
+                <!-- Nota adhesiva #3 -->
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Título de la nota adhesiva -->
+                        <h2>Tip #3</h2>
+                        <!-- Contenido de la nota adhesiva -->
+                        <p>Texto resumido y Formulario #3</p>
+                        <button class="formulario">Formulario1</button>
+                    </a>
+                </li>
+                <!-- Nota adhesiva #4 -->
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Título de la nota adhesiva -->
+                        <h2>Tip #4</h2>
+                        <!-- Contenido de la nota adhesiva -->
+                        <p>Texto resumido y acceso a <span class="highlight">benlar</span> #4</p>
+                        <button class="benlar">Ir a Benlar</button>
+                    </a>
+                </li>
+                <!-- Nota adhesiva #5 -->
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Título de la nota adhesiva -->
+                        <h2>Accesos</h2>
+                        <!-- Contenido de la nota adhesiva -->
+                        <button>Boton1enlace</button>
+                        <button class="formulario">Formulario1</button>
+                        <button class="benlar">Ir a Benlar</button>
+                    </a>
+                </li>
+                <li>
+                    <!-- Enlace que contiene la nota adhesiva -->
+                    <a href="#">
+                        <!-- Título de la nota adhesiva -->
+                        <h2>Tip #6</h2>
+                        <!-- Contenido de la nota adhesiva -->
+                        <p>Texto resumido #6 prueba de largo como funciona el tamaño, con respecto a todo</p>
+                    </a>
+                </li>
+            </ul>
+        </body>
+    </html>
+</apex:page>
+<!-- 
+    Vers. 4
+    Autor: Marco Reyes Farias
+    Fecha: 22/04/2024
+-->
+
+
